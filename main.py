@@ -19,9 +19,10 @@ class Student:
 
 
     def avg_rate(self):
-        avg_rating = list(map(lambda x: x[0], self.grades.values()))
-        avg = sum(avg_rating) / len(avg_rating)
-        return avg
+        total_grades = []
+        for grades in self.grades.values():
+            total_grades.extend(grades)
+        return sum(total_grades) / len(total_grades) if total_grades else 0
 
 
     def __str__(self):
@@ -62,9 +63,10 @@ class Lecturer(Mentor):
 
 
     def avg_rate(self):
-        avg_rating = list(map(lambda x: x[0], self.grades.values()))
-        avg = sum(avg_rating) / len(avg_rating)
-        return avg
+        total_grades = []
+        for grades in self.grades.values():
+            total_grades.extend(grades)
+        return sum(total_grades) / len(total_grades) if total_grades else 0
 
 
     def __str__(self):
@@ -151,8 +153,10 @@ def avg_student_grade(students, course):
     for student in students:
         if course in student.courses_in_progress:
             grade_.extend(student.grades[course])
-    avg_grade_ = sum(grade_) / len(grade_)
-    return f'Средняя оценка студентов на курсе {course} - {avg_grade_}'
+    if grade_:
+        avg_grade_ = sum(grade_) / len(grade_)
+        return f'Средняя оценка лекторов на курсе {course} - {avg_grade_}'
+    return f'Нет оценок по курсу {course}'
 
 
 def avg_lecturer_grade(lectors, course):
@@ -160,8 +164,10 @@ def avg_lecturer_grade(lectors, course):
     for lecturer in lectors:
         if course in lecturer.courses_attached:
             grade_.extend(lecturer.grades[course])
-    avg_grade_ = sum(grade_) / len(grade_)
-    return f'Средняя оценка лекторов на курсе {course} - {avg_grade_}'
+    if grade_:
+        avg_grade_ = sum(grade_) / len(grade_)
+        return f'Средняя оценка лекторов на курсе {course} - {avg_grade_}'
+    return f'Нет оценок по курсу {course}'
 
 
 print(avg_student_grade([student_1, student_2], 'DB'))
